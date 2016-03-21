@@ -1,0 +1,44 @@
+html {
+  font-family: 'Nunito', sans-serif;
+  background-color: lightgrey;
+}
+
+#main {
+  background-color: transparent;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: 800px;
+  margin-left: -400px;
+}
+
+.logo {
+  height: 50px;
+  border-radius: 50px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+#header {
+  font-size: 44px;
+  background-color: antiquewhite;
+  padding-left: 20%;
+}
+
+li {
+  display: block;
+  background-color: cadetblue;
+  border-bottom: 1px solid transparent;
+  margin: 0 0 2px 0;
+}
+
+.stream {
+    padding: 5px 5px;
+}
+
+.content {
+    display: inline-block;
+}

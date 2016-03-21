@@ -1,0 +1,8 @@
+{
+   "compilerOptions": {
+       "target": "es5",
+       "outFile": "app.js"
+   }, "files": [
+       "all.d.ts"
+   ]
+}

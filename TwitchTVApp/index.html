@@ -1,0 +1,32 @@
+<!Doctype html>
+<html>
+
+<head>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="app.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="Styles/site.css" />
+</head>
+
+<body>
+    <div id="main">
+        <ul id="streamlist">
+            <li>
+                <div id="header">TWITCH STREAMERS </div>
+            </li>
+        </ul>
+    </div>
+    <template id="li_stream">
+        <li>
+            <div class="stream">
+                <img class="logo" src="https://static-cdn.jtvnw.net/jtv_user_pictures/freecodecamp-profile_image-d9514f2df0962329-300x300.png"></img>
+                <div class="content">
+                    <span class="streamname"></span>
+                    <span class="status"></span>
+                </div>
+            </div>
+        </li>
+    </template>
+</body>
+
+</html>
