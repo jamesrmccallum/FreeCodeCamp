@@ -43,7 +43,7 @@ class twitchApi {
         this.channels = channels.map(c => { 
             return { name: c, 
                 logo: 'http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg', 
-                status: 'Account Closed' 
+                status: undefined
             } 
         });
     }
@@ -56,18 +56,20 @@ class twitchApi {
             
             this.getStreams(channelstring)
                 .then(d => {
-                    return this.parseStream(d);
+                    this.parseStream(d);
                 })
                 .then(e=>{
-                    return Promise.all(this.channels.map(d=>{
+                    Promise.all(this.channels.map(d=>{
                         return this.getChannelInfo(d.name)
                             .then(e=>{
-                                
+                                d.logo = e.logo ? e.logo : d.logo;
+                                d.status = d.status ? d.status: 'Offline';
                             })
                             .catch(f=>{
-                                
+                                d.status = 'Account Closed'
                             })
                     }))
+                    .then(()=>res(this.AllChannels));
                     
                 })//Populate active channels  
             
@@ -103,8 +105,7 @@ class twitchApi {
         let url = this.api + '/streams?channel=' + s;
         return new Promise((res,rej)=>{
             $.ajax(url)
-                .then(d=>res(d))
-                .fail(e=>rej(e))
+                .then(res,rej)
         })    
     }
 
@@ -112,10 +113,9 @@ class twitchApi {
         let url = this.api + '/channels/' + s;
         return new Promise((res,rej)=>{
             $.ajax(url)
-                .then(d=>res(d))
-                .fail(e=>rej(e))
-        })  
-        
+                .then(res,rej)  
+    })
+    
     }
 }
 
@@ -141,6 +141,7 @@ $(function() {
         (<HTMLImageElement>tmp.content.querySelector('.logo')).src = c.logo;
         (<HTMLSpanElement>tmp.content.querySelector('.streamname')).innerHTML = c.name;
         (<HTMLSpanElement>tmp.content.querySelector('.status')).innerHTML = c.status;
+        let state = c.status === 'Offline'|| c.status === 'Account Closed' ? 'Offline' : 'Online';
 
         return <HTMLLIElement>document.importNode(tmp.content, true);
     }
