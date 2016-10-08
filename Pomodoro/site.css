@@ -1,0 +1,23 @@
+
+html {
+    background-color: dimgray;
+}
+#clock {
+    height: 200px;
+    width: 200px;
+    border: 10px solid;
+    border-radius: 110px;
+    border-color: mediumspringgreen;
+    left: 50%;
+    top: 50%;
+    position: fixed;
+    text-align: center;
+    line-height: 200px;
+    font-size: 40px;
+    color: mediumspringgreen;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.timectrl{
+    
+}
