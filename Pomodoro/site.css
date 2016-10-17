@@ -1,7 +1,13 @@
 
 html {
     background-color: dimgray;
+    font-family: 'Fjalla One', sans-serif;
 }
+#header{
+    font-size: 50px;
+    text-align: center;
+}
+
 #clock {
     height: 200px;
     width: 200px;
@@ -10,14 +16,51 @@ html {
     border-color: mediumspringgreen;
     left: 50%;
     top: 50%;
-    position: fixed;
+    margin-top:-100px;
+    margin-left:-100px;
+    position: absolute;
     text-align: center;
     line-height: 200px;
     font-size: 40px;
+    color: mediumspringgreen; 
+}
+
+#settings {
+    position:relative;
+}
+
+.springgreen{
     color: mediumspringgreen;
-    font-family: 'Fjalla One', sans-serif;
 }
 
 .timectrl{
-    
+    display: inline-block;
+    padding: 0 20px 0 20px;
+    position: relative;
+    left: 42%;
+    top: 25%; 
+}
+
+.controlpanel div {
+    display: inline-block;
+    font-size: 40px;
+}
+
+.ctrl{
+    font-size: 40px;
+}
+.ctrl:hover {
+    cursor: pointer;
+}
+
+#play {
+    position: absolute;
+    left: 45%;
+    top: -30%;
+}
+
+#reset {
+    position: absolute;
+    top: 25%;
+    left: 45%;
 }

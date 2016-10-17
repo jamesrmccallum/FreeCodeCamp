@@ -2,28 +2,48 @@
 <html>
 
 <head>
-    <script src="index.js"></script>
-    <link rel="stylesheet" href="site.css"></link>
-    <link href='https://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+	<script src="index.js"></script>
+	<link rel="stylesheet" href="site.css"></link>
+	<link href='https://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-    <div id="controls">
-        <div id="sessionduration" class="timectrl">
-            <div>+</div>
-            <div class="val"> </div>
-            <div>-</div>
-        </div>
-        <div id="breakduration" class="timectrl">
-            <div>+</div>
-            <div class="val"> </div>
-            <div>-</div>
-        </div>
+    <div id="header">
+        <h2> Free Code Camp </h2>
     </div>
-    <div id="clock">
-        <div id="minutes"></div> :
-        <div id="seconds"></div>
-    </div>
+	<div id="settings">
+		<div id="sessionduration" class="timectrl">
+			<span class="ctrlheader springgreen"> Session Length </span>
+			<div class="controlpanel">
+				<div id="sessionminus" class="ctrl springgreen">-</div>
+				<div class="val springgreen"> </div>
+                <div id="sessionplus" class="ctrl springgreen">+</div>
+			</div>
+		</div>
+		<div id="breakduration" class="timectrl">
+			<span class="ctrlheader springgreen"> Break Length </span>
+			<div class="controlpanel">
+                <div id="pauseminus" class="ctrl springgreen">-</div>
+				<div class="val springgreen"> </div>
+                <div id="pauseplus" class="ctrl springgreen">+</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="clock">
+		<div id="play" class="springgreen">
+			<i class="material-icons ctrl">play_arrow</i>
+		</div>
+		<div id="clockface">
+			<div id="minutes"></div> :
+			<div id="seconds"></div>
+		</div>
+		<div id="reset" class="springgreen">
+			<i class="material-icons ctrl">restore</i>
+		</div>
+	</div>
+
 </body>
 
 </html>
