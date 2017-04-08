@@ -1,0 +1,253 @@
+
+#simon {
+    position:fixed;
+    height: 600px;
+    width: 600px;
+    margin-left: -300px;
+    margin-top: -300px;
+    background-color: #444444;
+    left:50%;
+    top: 50%;
+    border-radius: 100%;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.logo{
+    font-size: 70px;
+    width: 200px;
+    text-align: center;
+    left: 7%;
+    top: 30px;
+}
+
+/** Big player buttons ***************************************************/
+
+#simon .button {
+    width:250px;
+    height:250px;
+    position: absolute;
+    display: inline-block;
+}
+
+#simon .button.top_left {
+    border-top-left-radius: 100%;
+    background-color: #00b300;
+    left: 50px;
+    top: 50px;
+}
+
+#simon .button.top_left.lit{
+    background-color: #00cd00;
+}
+
+#simon .button.top_right {
+    border-top-right-radius: 100%;
+    background-color:  #cc0000;
+    right: 50px;
+    top: 50px;  
+}
+
+#simon .button.top_right.lit{
+    background-color: #ff6666;
+}
+
+#simon .button.bottom_left {
+    border-bottom-left-radius: 100%;
+    background-color: #e6e600;
+    left: 50px;
+    bottom: 50px;
+}
+
+#simon .button.bottom_left.lit{
+    background-color: #ffff66;
+}
+
+#simon .button.bottom_right {
+    border-bottom-right-radius: 100%;
+    background-color: #6666ff;
+    right: 50px;
+    bottom: 50px;
+}
+
+#simon .button.bottom_right.lit{
+    background-color: #7f7fff;
+}
+
+/*** Controls **************************************************/
+.simon_controls {
+    position: absolute;
+    left:50%;
+    top: -10%;
+    border-radius: 100%;
+    z-index: 999;
+}
+
+.simon_controls.outer {
+    background-color: #444444;
+    height: 250px;
+    width: 250px;
+    left: 175px;
+    top:175px;
+}
+
+.simon_controls.inner {
+    background-color: silver;
+    top: 185px;
+    left: 185px;
+    height: 230px;
+    width: 230px;
+}
+
+.simon_controls #labels {
+    position:absolute;
+    width: 230px;
+    height: 10px;
+    left:5%;
+    top:70%;
+}
+
+.simon_controls .lbl_counter{
+    left: 5%;
+}
+
+.simon_controls .lbl_start {
+    left: 34%
+}
+
+
+.simon_controls label {
+    padding-left:10px;
+}
+
+.simon_controls.inner *{
+    position: absolute;
+}
+
+/** Center Button Bar **/
+#simon .ctrlbar {
+    height: 40px;
+    width: 200px;
+    top:120px;
+    left:14px;
+}
+
+.ctrlbar .btn {
+    top: 3px;
+    position:absolute;
+    display: block;
+    height: 25px;
+    width: 25px;
+    border-radius: 100%;
+    border: 6px solid darkslategray;
+    transition: all ease 0.3s;
+}
+
+.ctrlbar .btn:active {
+     height: 22px;
+     width: 22px;
+}
+
+.ctrlbar .btn:focus { outline: none; }
+.ctrlbar .btn:hover { cursor: pointer;}
+
+.counter {
+    top: 3%;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 10%;
+    background-color: #400000;
+    left: 6%;
+    width: 50px;
+    height: 40px;
+    color: red;
+    text-align: center;
+    font-size: 30px;
+    line-height: 40px;
+}
+
+.btn.start {
+    left: 43%;
+    background-color: red;
+}
+
+.btn.strict {
+    background-color: yellow;
+    left: 72%;
+}
+
+.simon_controls .lbl_strict {
+    left: 58%;
+}
+
+.led {
+    height: 10px;
+    width: 10px;
+    left: 78.5%;
+    top: -10px;
+    background-color: #400000;
+    border-radius: 100%;
+}
+
+.btn.onoff {
+    top: 82%;
+    left: 37%;
+    border-radius: 3px;
+    width: 60px;
+    height: 25px;
+    border: none;
+    background-color: #e68a00;
+}
+
+.btn.onoff:hover{
+    cursor: pointer;
+}
+
+.btn.onoff_inner {
+    height: 25px;
+    width: 30px;
+    background-color: #ff9900;
+    border-radius: 3px;
+}
+
+.btn.onoff_inner.on {
+    left:30px;
+    transform: translateX(0px);
+    transition: all ease 2s;
+}
+
+.lbl_onoff_on {
+    left: -55%;
+    top: 12%;
+} 
+
+.lbl_onoff_off {
+    left: 90%;
+    top: 12%;
+} 
+
+.bar {
+    border-radius: 12px;
+    position:absolute;
+    background-color: #444444;
+}
+
+.bar.horizontal {
+    top: 280px;
+    left: 0;
+    height:40px;
+    width: 600px;
+}
+
+.bar.vertical {
+    top: 0;
+    left: 280px;
+    width:40px;
+    height: 600px;
+}
+
+#simon .row {
+    position: relative;
+    height:300px;
+    width: 600px;
+    display:inline-block;
+}
+

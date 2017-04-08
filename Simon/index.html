@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href='site.css'>
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+</head>
+
+
+<body>
+
+    <div id="simon">
+        <div class="row">
+            <div data-idx='0' class="button top_left"></div>
+            <div data-idx='1' id='topright' class="button top_right"></div>
+        </div>
+        <div class="row">
+            <div data-idx='2' class="button bottom_left"></div>
+            <div data-idx='3' class="button bottom_right"></div>
+        </div>
+        <div class="bar horizontal"></div>
+        <div class="bar vertical"></div>
+        <div class="simon_controls outer"></div>
+        <div class="simon_controls inner">
+            <div class='logo'>Simon</div>
+            <div id='ctrlbar' class='ctrlbar'>
+                <div id='counter' class='counter'>15</div>
+                <div class='led'></div>
+                <a id='start' class='btn start'></a>
+                <a id='strict' class='btn strict'></a>
+            </div>
+            <div id='labels'>
+                <label class='lbl_counter' for='counter'>COUNT</label>
+                <label class='lbl_start' for='start'>START</label>
+                <label class='lbl_strict' for='strict'>STRICT</label>
+            </div>
+            <div class='btn onoff'>
+                <label class='lbl_onoff_on' for='onoff'>OFF</label>
+                <div id='onoff' class='btn onoff_inner'></div>
+                <label class='lbl_onoff_off' for='onoff'>ON</label>
+            </div>
+        </div>    
+    </div>
+    </div>
+
+<script src='index.js'></script>
+</body>
+</html>
