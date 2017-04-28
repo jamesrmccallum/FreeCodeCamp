@@ -1,0 +1,155 @@
+html, body {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+button, input[type=submit]{
+  border      : 0;
+  background  : gold;
+  font-family : inherit;
+  font-size   : 1em;
+  cursor      : pointer;
+}
+
+button::-moz-focus-inner{
+  padding : 0;
+  border  : 0;
+}
+
+#appRoot{
+    display: flex;
+    flex-flow: column nowrap;
+    align-content: center;
+    align-items: center;
+}
+
+.recipeBox{
+    height: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    width: 60%;
+    align-content: center;
+    align-items: center;
+    padding:30px;
+}
+
+.recipeCard{
+    width:100%;
+    background-color: lightcoral;
+    height: auto;
+    align-content: center;
+    align-items: center;
+    display: flex;
+    margin: 10px 5px 0 5px;
+    flex-flow: column nowrap; 
+}
+
+.recipeCard a{
+    height: 100%;
+    color: white;
+    font-weight: bold;
+    font-style: normal;
+    text-decoration: none;
+}
+.shadow {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.shadow:hover{
+    box-shadow: 0 10px 10px rgba(0,0,0,0.25), 0 5px 8px rgba(0,0,0,0.22);
+}
+
+.recipeBody{
+    background-color: white;
+    height: 0;
+    padding: 10px 0 0 0;
+    visibility: hidden;
+}
+
+.recipeBody.show{
+    height: auto;
+    visibility: visible;
+}
+
+.tr {
+    width: 100%;
+    text-align: left;
+}
+
+.recipeName {
+    padding: 0 0 0 10px;
+    min-height: 40px;
+    line-height: 40px;
+    flex-flow: row nowrap;
+}
+
+.recipeHeader{
+    padding: 0 0 0 10px;
+    flex-flow: row nowrap;
+}
+
+.ingredient{
+    flex-flow: row nowrap;
+    padding: 0 0 0 15px;
+    margin: 10px 0 10px 0;
+}
+
+.buttonContainer {
+    flex-flow: column nowrap;
+    width: auto;
+    margin: 10px;
+    flex:1;
+}
+
+.modalBackdrop{
+    background-color: rgba(0,0,0,.6);
+    z-index: 9998; 
+    width: 100%; 
+    height: 100%; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+ }
+
+.modalBody{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 9999;
+    height: 250px;
+    width: 250px;
+    margin-left: -125px;
+    margin-top: -125px;
+    background-color: ghostwhite;
+    display:flex;
+    flex-flow: column nowrap;
+    padding: 20px;
+}
+
+    .newRecipeForm{
+        flex:4;
+        display:flex;
+        flex-flow: column nowrap;
+    }
+
+        .formRow{
+            padding-bottom: 10px;
+        }
+
+        #recipename {
+            flex: 1;
+        }
+
+        #ingredients {
+            flex: 3;
+        }
+
+        .btn{
+            margin: 0 20px 0 20px;
+            padding: 5px;
+        }
+
+        .input, label {
+            border: none;
+            display:block;
+        }
+

@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "outFile": "./index.js",
+        "jsx": "react",
+        "lib": [
+            "es2015.core",
+            "es2015.promise",
+            "es2016",
+            "dom"
+        ]
+    },
+    "files": [
+        "./index.tsx"
+    ]
+}
