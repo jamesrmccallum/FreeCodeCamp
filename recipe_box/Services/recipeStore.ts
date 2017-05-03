@@ -23,7 +23,24 @@ class RecipeStore {
         }
     }
 
-    addRecipe(r: IRecipe): Promise<IRecipe[]> {
+    getRecipeById(id: number) {
+
+        return this.recipes.find(r=>{
+            return r.id == id;
+        });
+    }
+
+    /** Returns either the add or update */
+    addOrUpdateRecipe(r: IRecipe) {
+
+            if (this.getRecipeById(r.id)) {
+                return this.updateRecipe(r)
+            } else {
+                return this.addRecipe(r)
+            }
+    }
+
+    private addRecipe(r: IRecipe): Promise<IRecipe[]> {
 
         r.id = this.nextId;
 
@@ -41,9 +58,9 @@ class RecipeStore {
 
         return new Promise((res, rej) => {
 
-            this.recipes = this.recipes.filter(a => {
-                a.id !== id;
-            })
+            let idx = this.recipes.findIndex(a=>a.id == id);
+            
+            this.recipes.splice(idx,1);
 
             this.updateStore()
                 .then(() => res(this.recipes))
@@ -52,7 +69,7 @@ class RecipeStore {
     }
 
     /** Update an existing recipe - sync to the store - return the recipe list */
-    updateRecipe(recipe: IRecipe): Promise<IRecipe[]> {
+    private updateRecipe(recipe: IRecipe): Promise<IRecipe[]> {
 
         return new Promise((res, rej) => {
             let idx = this.recipes.findIndex(a => {
@@ -90,8 +107,6 @@ class RecipeStore {
 
 
 const recipeStore: IRecipeStore = new RecipeStore();
-Object.freeze(recipeStore);
-
 
 export interface IRecipe {
     id: number,
@@ -102,9 +117,10 @@ export interface IRecipe {
 export interface IRecipeStore {
 
     getRecipes: () => IRecipe[];
-    addRecipe: (r: IRecipe) => Promise<IRecipe[]>
+    getBlankRecipe: ()=>IRecipe;
+    getRecipeById: (id: number) => IRecipe;
+    addOrUpdateRecipe: (r: IRecipe) => Promise<IRecipe[]>
     deleteRecipe: (id: number) => Promise<IRecipe[]>
-    updateRecipe: (r: IRecipe) => Promise<IRecipe[]>
     nextId: number
 }
 

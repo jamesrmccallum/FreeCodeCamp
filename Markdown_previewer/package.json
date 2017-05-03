@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "marked": "^0.3.6",
     "react": "^15.5.2",
     "react-dom": "^15.5.2"
   }

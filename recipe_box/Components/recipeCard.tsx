@@ -4,9 +4,9 @@ import { IRecipe } from '../Services/recipeStore'
 interface RecipeCardProps {
     recipe: IRecipe
     key: number
-    expandCard: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-    editFn: (id) => void;
-    deleteFn: (id) => void;
+    expandCard: (id: number) => void;
+    editFn: (id: number) => void;
+    deleteFn: (id: number) => void;
     expanded: boolean
 }
 
@@ -21,11 +21,18 @@ export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState
     }
 
     toggleExpand(e: React.MouseEvent<HTMLAnchorElement>) {
-        this.props.expandCard(e);
+        e.preventDefault();
+        this.props.expandCard(this.props.recipe.id);
     }
 
-    toggleEdit(){
-        
+    toggleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        this.props.editFn(this.props.recipe.id);
+    }
+
+    deleteCard = (e) => {
+        e.preventDefault();
+        this.props.deleteFn(this.props.recipe.id);
     }
 
     render() {
@@ -46,20 +53,20 @@ export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState
                 </a>
             </div>
             <div className={bodyClasses.join(' ')}>
-                
+
                 <div className="recipeHeader tr">
                     Ingredients
                 </div>
-                
+
                 {this.props.recipe.ingredients.split(',').map((ing, i) => {
                     return <div key={i} className='ingredient tr'>{ing.trim()}</div>
                 })}
-                
+
                 <div className='recipeCardControls tr'>
-                    <button className='btn' onClick={this.props.editFn}>Edit</button>
-                    <button className='btn' onClick={this.props.deleteFn}>Delete</button>
+                    <button className='btn' onClick={this.toggleEdit}>Edit</button>
+                    <button className='btn' onClick={this.deleteCard}>Delete</button>
                 </div>
-                
+
             </div>
         </div>
     }

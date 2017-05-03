@@ -9,7 +9,9 @@ interface RecipeBoxState {
     recipes: IRecipe[],
     cardStates: boolean[]
     modalVisible: boolean,
+    modalRecipe: IRecipe,
     editing: boolean
+
 }
 
 export class RecipeBox extends React.Component<RecipeBoxProps, RecipeBoxState> {
@@ -22,6 +24,7 @@ export class RecipeBox extends React.Component<RecipeBoxProps, RecipeBoxState> {
 
         this.state = {
             recipes: [],
+            modalRecipe: null,
             cardStates: [],
             modalVisible: false,
             editing: false
@@ -38,15 +41,17 @@ export class RecipeBox extends React.Component<RecipeBoxProps, RecipeBoxState> {
         })
     }
 
-    /** Add a new recipe */
-    addNewRecipe = (r: IRecipe) => {
+    /** Add a new recipe, or update an existing 
+     * Adjust the card toggle states array
+    */
+    addOrUpdateRecipe = (r: IRecipe) => {
 
-        this.storage.addRecipe(r).then(r => {
+        this.storage.addOrUpdateRecipe(r).then(r => {
             this.setState({
                 recipes: r,
-                cardStates: this.state.cardStates.concat([false])
+                cardStates: r.map(r => false)
             }, () => {
-                this.toggleModal();
+                this.closeModal();
             })
         })
     }
@@ -56,35 +61,38 @@ export class RecipeBox extends React.Component<RecipeBoxProps, RecipeBoxState> {
 
         this.storage.deleteRecipe(id).then(r => {
             this.setState({
-                recipes: r
+                recipes: r,
+                cardStates: r.map(r=>false)
             })
         })
     }
 
-    updateRecipe(r: IRecipe) {
+    openModal = (id?: number) => {
 
-        this.storage.updateRecipe(r).then(r => {
-            this.setState({
-                recipes: r
-            })
-        })
-    }
-
-    openModal(mode: 'add'|'edit') {
+        let recipe = id == undefined ? this.storage.getBlankRecipe() : this.storage.getRecipeById(id) 
 
         this.setState({
-            modalVisible:true
+            modalRecipe: recipe
+        }, () => {
+            this.setState({
+                modalVisible: true
+            })
         })
     }
 
-    toggleExpandedCard = (e: React.MouseEvent<HTMLAnchorElement>) => {
 
-        let id = parseInt((e.target as HTMLAnchorElement).dataset.id)
+    closeModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    }
+
+    toggleExpandedCard = (id: number) => {
+
         console.log(`Toggling card ${id}`);
         let states = this.state.cardStates.slice()
 
         for (let i = 0; i < states.length; i++) {
-            //If this is the 
             states[i] = i == id ? !states[i] : false;
         }
 
@@ -94,30 +102,21 @@ export class RecipeBox extends React.Component<RecipeBoxProps, RecipeBoxState> {
         console.log(states);
     }
 
-
-
-    closeModal = () => {
-        this.setState({
-            modalVisible: false
-        })
-    }
-
-
     render() {
 
         let addRecipeClickHandler = (e) => {
             e.preventDefault();
-            this.toggleModal();
+            this.openModal();
         }
 
         return <div className='recipeBox'>
-            {this.state.recipes.map((r, i) => {
 
+            {this.state.recipes.map((r, i) => {
                 return <RecipeCard
                     expanded={this.state.cardStates[i]}
                     expandCard={this.toggleExpandedCard}
                     deleteFn={this.deleteRecipe}
-                    editFn={this.updateRecipe}
+                    editFn={this.openModal}
                     key={i}
                     recipe={r}
                 ></RecipeCard>
@@ -127,14 +126,15 @@ export class RecipeBox extends React.Component<RecipeBoxProps, RecipeBoxState> {
                 <button className='btn addNew shadow' onClick={addRecipeClickHandler}>Add New Recipe></button>
             </div>
 
-            <NewRecipeModal
-                show={this.state.modalVisible}
-                recipe: {this.state.}
-                submitFn={this.addNewRecipe}
-                updateFn={this.updateRecipe}
-                closeFn={this.closeModal}
-            ></NewRecipeModal>
-        </div>
+            {this.state.modalVisible &&
+                <NewRecipeModal
+                    show={this.state.modalVisible}
+                    recipe={this.state.modalRecipe}
+                    submitFn={this.addOrUpdateRecipe}
+                    closeFn={this.closeModal}
+                ></NewRecipeModal>
+            }
+        </div >
 
     }
 

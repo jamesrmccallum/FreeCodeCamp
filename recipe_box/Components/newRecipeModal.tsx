@@ -3,10 +3,8 @@ import { IRecipe } from '../Services/recipeStore'
 
 interface modalProps {
     show: boolean,
-    new: boolean,
     recipe: IRecipe
     submitFn: (IRecipe) => void;
-    updateFn: (IRecipe) => void;
     closeFn: () => void;
 }
 
@@ -19,14 +17,29 @@ interface modalState {
 /** Modal window containing an add/edit form for recipes */
 export class NewRecipeModal extends React.Component<modalProps, modalState>{
 
+    recipeName: HTMLInputElement;
+
     constructor(props: modalProps) {
         super(props);
 
         this.state = {
+            id: null,
+            name: null,
+            ingredientsCsv: null
+        }
+    }
+
+    componentWillMount() {
+
+        this.setState({
             id: this.props.recipe.id,
             name: this.props.recipe.name,
             ingredientsCsv: this.props.recipe.ingredients
-        }
+        })
+    }
+
+    componentDidMount(){
+        this.recipeName.focus();
     }
 
     postRecipe = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,12 +52,7 @@ export class NewRecipeModal extends React.Component<modalProps, modalState>{
             ingredients: this.state.ingredientsCsv
         }
 
-        if (this.props.new) {
-            this.props.submitFn(r)
-        } else {
-            this.props.updateFn(r);
-        }
-
+        this.props.submitFn(r)
     }
 
     render() {
@@ -64,6 +72,7 @@ export class NewRecipeModal extends React.Component<modalProps, modalState>{
                         <div className='formRow' id='recipename'>
                             <label htmlFor='recipename'>Recipe:</label>
                             <input
+                                ref={(input)=>{this.recipeName = input}}
                                 className='input recipeName'
                                 name='recipename'
                                 placeholder='recipe name'

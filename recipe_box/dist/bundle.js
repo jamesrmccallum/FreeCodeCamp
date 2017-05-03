@@ -9530,13 +9530,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
         __extends(RecipeBox, _super);
         function RecipeBox(props) {
             var _this = _super.call(this, props) || this;
-            _this.addNewRecipe = function (r) {
-                _this.storage.addRecipe(r).then(function (r) {
+            /** Add a new recipe, or update an existing
+             * Adjust the card toggle states array
+            */
+            _this.addOrUpdateRecipe = function (r) {
+                _this.storage.addOrUpdateRecipe(r).then(function (r) {
                     _this.setState({
                         recipes: r,
-                        cardStates: _this.state.cardStates.concat([false])
+                        cardStates: r.map(function (r) { return false; })
                     }, function () {
-                        _this.toggleModal();
+                        _this.closeModal();
                     });
                 });
             };
@@ -9544,16 +9547,30 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             _this.deleteRecipe = function (id) {
                 _this.storage.deleteRecipe(id).then(function (r) {
                     _this.setState({
-                        recipes: r
+                        recipes: r,
+                        cardStates: r.map(function (r) { return false; })
                     });
                 });
             };
-            _this.toggleExpandedCard = function (e) {
-                var id = parseInt(e.target.dataset.id);
+            _this.openModal = function (id) {
+                var recipe = id == undefined ? _this.storage.getBlankRecipe() : _this.storage.getRecipeById(id);
+                _this.setState({
+                    modalRecipe: recipe
+                }, function () {
+                    _this.setState({
+                        modalVisible: true
+                    });
+                });
+            };
+            _this.closeModal = function () {
+                _this.setState({
+                    modalVisible: false
+                });
+            };
+            _this.toggleExpandedCard = function (id) {
                 console.log("Toggling card " + id);
                 var states = _this.state.cardStates.slice();
                 for (var i = 0; i < states.length; i++) {
-                    //If this is the 
                     states[i] = i == id ? !states[i] : false;
                 }
                 _this.setState({
@@ -9561,14 +9578,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
                 });
                 console.log(states);
             };
-            _this.closeModal = function () {
-                _this.toggleModal();
-            };
             _this.storage = recipeStore_1.default;
             _this.state = {
                 recipes: [],
+                modalRecipe: null,
                 cardStates: [],
-                modalVisible: false
+                modalVisible: false,
+                editing: false
             };
             return _this;
         }
@@ -9579,27 +9595,20 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
                 cardStates: recipes.map(function (r) { return false; })
             });
         };
-        RecipeBox.prototype.editRecipe = function () {
-        };
-        RecipeBox.prototype.toggleModal = function () {
-            var visible = this.state.modalVisible ? false : true;
-            this.setState({
-                modalVisible: visible
-            });
-        };
         RecipeBox.prototype.render = function () {
             var _this = this;
             var addRecipeClickHandler = function (e) {
                 e.preventDefault();
-                _this.toggleModal();
+                _this.openModal();
             };
             return React.createElement("div", { className: 'recipeBox' },
                 this.state.recipes.map(function (r, i) {
-                    return React.createElement(recipeCard_1.RecipeCard, { expanded: _this.state.cardStates[i], expandCard: _this.toggleExpandedCard, deleteFn: _this.deleteRecipe, editFn: _this.editRecipe, key: i, recipe: r });
+                    return React.createElement(recipeCard_1.RecipeCard, { expanded: _this.state.cardStates[i], expandCard: _this.toggleExpandedCard, deleteFn: _this.deleteRecipe, editFn: _this.openModal, key: i, recipe: r });
                 }),
                 React.createElement("div", { className: 'buttonContainer' },
                     React.createElement("button", { className: 'btn addNew shadow', onClick: addRecipeClickHandler }, "Add New Recipe>")),
-                React.createElement(newRecipeModal_1.NewRecipeModal, { show: this.state.modalVisible, newRecipeId: this.state.recipes.length, submitFn: this.addNewRecipe, closeFn: this.closeModal }));
+                this.state.modalVisible &&
+                    React.createElement(newRecipeModal_1.NewRecipeModal, { show: this.state.modalVisible, recipe: this.state.modalRecipe, submitFn: this.addOrUpdateRecipe, closeFn: this.closeModal }));
         };
         return RecipeBox;
     }(React.Component));
@@ -9635,6 +9644,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
 !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(25)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, React) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    /** Modal window containing an add/edit form for recipes */
     var NewRecipeModal = (function (_super) {
         __extends(NewRecipeModal, _super);
         function NewRecipeModal(props) {
@@ -9649,12 +9659,22 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
                 _this.props.submitFn(r);
             };
             _this.state = {
-                id: _this.props.newRecipeId,
-                name: '',
-                ingredientsCsv: ''
+                id: null,
+                name: null,
+                ingredientsCsv: null
             };
             return _this;
         }
+        NewRecipeModal.prototype.componentWillMount = function () {
+            this.setState({
+                id: this.props.recipe.id,
+                name: this.props.recipe.name,
+                ingredientsCsv: this.props.recipe.ingredients
+            });
+        };
+        NewRecipeModal.prototype.componentDidMount = function () {
+            this.recipeName.focus();
+        };
         NewRecipeModal.prototype.render = function () {
             var _this = this;
             var namechange = function (e) { return _this.setState({ name: e.target.value }); };
@@ -9666,7 +9686,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
                         React.createElement("form", { id: 'newRecipe', className: "newRecipeForm", onSubmit: this.postRecipe },
                             React.createElement("div", { className: 'formRow', id: 'recipename' },
                                 React.createElement("label", { htmlFor: 'recipename' }, "Recipe:"),
-                                React.createElement("input", { className: 'input recipeName', name: 'recipename', placeholder: 'recipe name', value: this.state.name, onChange: namechange })),
+                                React.createElement("input", { ref: function (input) { _this.recipeName = input; }, className: 'input recipeName', name: 'recipename', placeholder: 'recipe name', value: this.state.name, onChange: namechange })),
                             React.createElement("div", { className: 'formRow', id: 'ingredients' },
                                 React.createElement("label", { htmlFor: 'ingredients' }, "Ingredients:"),
                                 React.createElement("textarea", { className: 'input recipeIngredients', name: 'ingredients', placeholder: 'enter ingredients separated by commas', value: this.state.ingredientsCsv, onChange: ingredientChange }))),
@@ -9705,10 +9725,20 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
     var RecipeCard = (function (_super) {
         __extends(RecipeCard, _super);
         function RecipeCard(props) {
-            return _super.call(this, props) || this;
+            var _this = _super.call(this, props) || this;
+            _this.toggleEdit = function (e) {
+                e.preventDefault();
+                _this.props.editFn(_this.props.recipe.id);
+            };
+            _this.deleteCard = function (e) {
+                e.preventDefault();
+                _this.props.deleteFn(_this.props.recipe.id);
+            };
+            return _this;
         }
-        RecipeCard.prototype.toggleCard = function (e) {
-            this.props.expandCard(e);
+        RecipeCard.prototype.toggleExpand = function (e) {
+            e.preventDefault();
+            this.props.expandCard(this.props.recipe.id);
         };
         RecipeCard.prototype.render = function () {
             var _this = this;
@@ -9719,15 +9749,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             }
             return React.createElement("div", { className: "recipeCard shadow" },
                 React.createElement("div", { className: "recipeName tr" },
-                    React.createElement("a", { href: '#', "data-id": this.props.recipe.id, onClick: function (e) { return _this.toggleCard(e); } }, this.props.recipe.name)),
+                    React.createElement("a", { href: '#', "data-id": this.props.recipe.id, onClick: function (e) { return _this.toggleExpand(e); } }, this.props.recipe.name)),
                 React.createElement("div", { className: bodyClasses.join(' ') },
                     React.createElement("div", { className: "recipeHeader tr" }, "Ingredients"),
                     this.props.recipe.ingredients.split(',').map(function (ing, i) {
                         return React.createElement("div", { key: i, className: 'ingredient tr' }, ing.trim());
                     }),
                     React.createElement("div", { className: 'recipeCardControls tr' },
-                        React.createElement("button", { className: 'btn', onClick: this.props.editFn }, "Edit"),
-                        React.createElement("button", { className: 'btn', onClick: this.props.deleteFn }, "Delete"))));
+                        React.createElement("button", { className: 'btn', onClick: this.toggleEdit }, "Edit"),
+                        React.createElement("button", { className: 'btn', onClick: this.deleteCard }, "Delete"))));
         };
         return RecipeCard;
     }(React.Component));
@@ -9751,6 +9781,27 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         RecipeStore.prototype.getRecipes = function () {
             return this.recipes;
         };
+        RecipeStore.prototype.getBlankRecipe = function () {
+            return {
+                id: this.nextId,
+                name: '',
+                ingredients: ''
+            };
+        };
+        RecipeStore.prototype.getRecipeById = function (id) {
+            return this.recipes.find(function (r) {
+                return r.id == id;
+            });
+        };
+        /** Returns either the add or update */
+        RecipeStore.prototype.addOrUpdateRecipe = function (r) {
+            if (this.getRecipeById(r.id)) {
+                return this.updateRecipe(r);
+            }
+            else {
+                return this.addRecipe(r);
+            }
+        };
         RecipeStore.prototype.addRecipe = function (r) {
             var _this = this;
             r.id = this.nextId;
@@ -9764,9 +9815,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         RecipeStore.prototype.deleteRecipe = function (id) {
             var _this = this;
             return new Promise(function (res, rej) {
-                _this.recipes = _this.recipes.filter(function (a) {
-                    a.id !== id;
-                });
+                var idx = _this.recipes.findIndex(function (a) { return a.id == id; });
+                _this.recipes.splice(idx, 1);
                 _this.updateStore()
                     .then(function () { return res(_this.recipes); })
                     .catch(function (e) { return rej(e); });
@@ -9807,7 +9857,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         return RecipeStore;
     }());
     var recipeStore = new RecipeStore();
-    Object.freeze(recipeStore);
     exports.default = recipeStore;
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));

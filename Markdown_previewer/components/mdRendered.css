@@ -1,0 +1,5 @@
+.mdRender {
+    flex: 1;
+    flex-flow: column nowrap;
+    padding: 10px;
+}

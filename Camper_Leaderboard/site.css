@@ -1,0 +1,71 @@
+
+html {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+#camperApp{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner{
+    text-align: center;
+    line-height: 40px;
+    background-color: green;
+    height: 40px;
+    color: white;
+}
+
+.tablecontainer{
+    top: 20%;
+    width: 60%
+}
+
+.tr:nth-child(2n+2) {
+    background: whitesmoke;
+}
+.tr:nth-child(2n+1) {
+    background: #FFF;
+}
+
+.th {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.tr{
+    height: 40px;
+    min-width: 50%;
+    display: flex;
+    line-height: 40px;
+    flex-flow: row nowrap;
+    align-content:center;
+}
+
+.userRank {
+    flex: 1;
+}
+
+.sortable:hover {
+    cursor: pointer;
+}
+
+.userAvatar{
+    margin: auto 5px auto 0;
+    width:30px;
+    height:30px;
+    border-radius: 1px;
+}
+
+.userName {
+    flex:5;
+}
+
+.points30 {
+    flex:3;
+}
+
+.pointsAllTime {
+    flex:3;
+}

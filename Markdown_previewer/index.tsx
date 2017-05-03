@@ -1,48 +1,44 @@
 
-interface MarkdownViewerProps { name: string, message: string }
+import * as marked from 'marked';
+import {MarkdownInput} from './components/mdInput';
+import {MarkdownRendered} from './components/mdRendered';
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 
-class MarkdownViewer extends React.Component<MarkdownViewerProps, any> {
+interface mdAppState{
+    rendered: string;
+}
+class MarkDownApp extends React.Component < any, mdAppState > {
 
-    private foo: number;
-    public name: string;
-    public message: string;
-
-    constructor(props: MarkdownViewerProps) {
+    constructor(props: any) {
         super(props);
-        this.foo = 42;
+        this.state = {rendered: ''}
     }
 
-    public handleOnChange(event: Event): void {
-        let t = event.target as HTMLInputElement
-        this.setState({ name: t.value });
+    inputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>)=>{
+        let el = e.target as HTMLTextAreaElement;
+        this.setState({
+            rendered:marked(el.value)
+        }) 
     }
 
     render() {
-        return <div>Hello World!</div>
+
+        let appStyle: React.CSSProperties = {
+            display: 'flex',
+            flexAlign: 'stretch'
+        }
+
+        return <div id="mdApp" style={appStyle}>
+                <MarkdownInput chngHandler={this.inputChangeHandler}></MarkdownInput>
+                <MarkdownRendered rendered={this.state.rendered}></MarkdownRendered>
+                </div>
     }
+
+
 
 }
 
-interface InputProps { markdown: string }
 
-class Input extends React.Component<InputProps, any> {
 
-    constructor(props: InputProps) {
-        super(props);
-        this.state = '';
-    }
-
-    render() {
-        return <Input>this.state></Input>
-    }
-}
-
-class MarkDownApp Extends React.Component {
-
-}
-
-const input = <MarkdownViewer name="james" message="You're a cunt!"></MarkdownViewer>;
-const renderer = <Input markdown=''></Input>;
-
-ReactDOM.render(input, document.getElementById('mdInput'));
-ReactDOM.render(renderer, document.getElementById('mdRender'));
+ReactDOM.render(<MarkDownApp></MarkDownApp>, document.getElementById('mdApp'));

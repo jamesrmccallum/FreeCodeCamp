@@ -4,4 +4,4 @@ Internals in Typescript, no libraries used.
 
 Layout in flexbox
 
-Codepend demo [here](https://codepen.io/jamesrmccallum/pen/NpZjbw)
+Codepen demo [here](https://codepen.io/jamesrmccallum/pen/NpZjbw)
