@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+</head>
+
+<body>
+    <style>
+        .chart rect {
+            fill: steelblue;
+        }
+
+        svg {
+            background: rgba(255,255,255,.7);
+            position: absolute;
+            top: 20%;
+            left: 20%;
+        }
+
+        html {
+            background-image: url('https://www.lesliewong.us/images/1307/alpe_l.jpg');
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .description {
+            width: 960px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .label {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .chart rect.mouseover {
+            fill: #9abad6
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 120px;
+            height: 130px;
+            padding: 2px;
+            font: 12px sans-serif;
+            color: white;
+            background: rgba(1, 1, 1, .8);
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
+    <svg width="960" height="500"></svg>
+    <script src='node_modules/d3/build/d3.min.js'></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

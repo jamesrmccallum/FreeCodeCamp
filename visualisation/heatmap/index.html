@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+</head>
+
+<body>
+    <style>
+        svg {
+            background: rgba(255, 255, 255, .7);
+            position: absolute;
+            top: auto;
+            left: 10%;
+        }
+
+        .label {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 120px;
+            height: 40px;
+            padding: 2px;
+            font: 12px sans-serif;
+            color: white;
+            background: rgba(1, 1, 1, .8);
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
+    <div style="text-align: center; font-family: Arial, Helvetica, sans-serif">
+        <h2> Monthly Land Surface Temperature </h2>
+        <h3> 1753 - 2015 </h3>
+        <p style='font-size:10px;'> Temperatures are in Celsius and reported as anomalies relative to the Jan 1951-Dec 1980 average. Estimated Jan 1951-Dec
+            1980 absolute temperature ℃: 8.66 +/- 0.07</p>
+    </div>
+    <svg width="1100" height="500"></svg>
+    <script src='node_modules/d3/build/d3.min.js'></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
