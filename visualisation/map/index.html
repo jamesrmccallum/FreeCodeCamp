@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+</head>
+
+<body>
+    <style>
+
+        html{
+            background-color: cornflowerblue;
+        }
+        svg {
+            position: absolute;
+            top: auto;
+        }
+
+        .country{
+            fill: antiquewhite;
+        }
+
+        .meteor {
+            fill-opacity: 0.5;
+        }
+
+        .label {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 120px;
+            height: auto;
+            padding: 2px;
+            font: 12px sans-serif;
+            color: white;
+            background: rgba(1, 1, 1, .8);
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
+    <svg width="1400" height="800"></svg>
+    <script src='node_modules/d3/build/d3.min.js'></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
