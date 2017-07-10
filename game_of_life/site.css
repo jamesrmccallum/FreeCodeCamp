@@ -1,0 +1,14 @@
+
+.cell {
+    height: 5px;
+    width: 5px;
+    border: .5px solid lightgray;
+}
+
+.cell.new{
+    background-color: red;
+}
+
+.cell.old{
+    background-color: pink;
+}
