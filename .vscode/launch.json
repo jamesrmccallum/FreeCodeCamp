@@ -5,7 +5,7 @@
             "name": "Launch",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/Algorithms/test.js",
+            "program": "${workspaceRoot}/game_of_life/tests/gridModel.js",
             "stopOnEntry": true,
             "args": [],
             "cwd": "${workspaceRoot}",

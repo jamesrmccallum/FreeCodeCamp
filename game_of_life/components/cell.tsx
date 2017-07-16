@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 interface CellProps extends React.HTMLProps<HTMLDivElement> {
-    cellState: 'x' | 'y' | ''
+    cellState: 'x' | 'y' | 'z'| '.';
+    clickHandler: (e)=>void;
 }
 
 interface CellState {
@@ -17,16 +18,19 @@ export class Cell extends React.Component<CellProps, CellState> {
     render() {
 
         var classNameMap = {
-            "": "dead",
+            ".": "dead",
             "x": "new",
-            "y": "old"
-        }
+            "y": "older",
+            "z": "oldest"
+        };
 
         let classNames = `cell ${classNameMap[this.props.cellState]}`;
 
-        return <div
-            className={classNames}>
-        </div>
+        return <div 
+                    id={this.props.id}
+                    onClick={(e)=>this.props.clickHandler(e)} 
+                    className={classNames}>
+                </div>;
 
     }
 }

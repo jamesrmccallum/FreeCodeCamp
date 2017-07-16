@@ -1,7 +1,3 @@
-interface Lengthwise {
-    length: number;
-}
-
 /** Implementation of an (x,y) Vector */
 class Vector {
 
@@ -10,28 +6,20 @@ class Vector {
         this.y = y;
     }
 
-    move(v: Vector) {
+    move(v) {
         return new Vector(
             this.x + v.x,
             this.y + v.y
         );
     }
     /**Return a new Vector which represents the old plus the new */
-    plus(other: Vector) {
+    plus(other) {
         return new Vector(
             this.x + other.x,
             this.y + other.y
         );
     }
-
-    times(factor: number) {
-        return new Vector(
-            this.x * factor,
-            this.y * factor
-        );
-    }
 }
-
 
 var directions = [
     new Vector(0, -1),
@@ -44,71 +32,95 @@ var directions = [
     new Vector(-1, -1)
 ];
 
+export type gridVal = ('x' | 'y' | 'z'| '.');
 
-export class Grid<T extends Lengthwise> {
-    private space: T[];
-    private _width: number;
+export type GridOpts = {
+    height?: number,
+    width?: number,
+    populated?: boolean,
+    grid?: gridVal[][];
+};
+
+export class Grid {
+
     private _height: number;
+    private _width: number;
+    private _grid: gridVal[][];
 
-    constructor(map: T[]) {
-        this.space = map;
-        this._width = map[0].length;
-        this._height = map.length / map[0].length;
+    // Can either construct a new grid from the dimensions given
+    // OR assemble a grid from a given 2d string array
+    constructor(opts: GridOpts) {
+
+        if (opts.grid) {
+            this._grid = opts.grid;
+        } else {
+
+
+            this._grid = [];
+
+            for (var i = 0; i < opts.height; i++) {
+                let tmp: gridVal[] = [];
+                for (var j = 0; j < opts.width; j++) {
+
+                    // We want to randomly generate a grid
+                    if (opts.populated) {
+                        let r = Math.random();
+
+                        if (r <= .95) {
+                            tmp.push('.');
+                        } else {
+                            tmp.push('x');
+                        }
+                    } else {
+                        tmp.push('.');
+                    }
+                }
+                this._grid.push(tmp);
+
+            }
+            this._height = opts.height;
+            this._width = opts.width;
+        }
     }
 
-    /** Tests whether a given vector is inside the grid bounds */
-    private isInside(vector: Vector) {
-        return vector.x >= 0 && vector.x < this._width &&
-            vector.y >= 0 && vector.y < this._height;
+    loadgrid(grid: gridVal[][]) {
+        this._grid = grid;
     }
 
-    /** Get the value at a given Vector */
-    private get(vector: Vector): T {
-        let v = this.space[vector.x + (this._width * vector.y)];
-        if (!v) {
+    getSurrounding(x, y) {
+
+        let cell = new Vector(x, y);
+        let found = [];
+        for (let i = 0; i < directions.length; i++) {
+            let n = cell.plus(directions[i]);
+            found.push(this.getCell(n.x, n.y));
+        }
+
+        return found;
+    }
+
+    getCell(x: number, y: number) {
+
+        if (x > this._width || x < 0 || y > this._height || y < 0) {
             return null;
         } else {
-            return v;
+            return this._grid[x][y];
         }
     }
 
-    private cellToVector(i: number) {
-        let y = i / this._width;
-        let x = this._width % y;
-        return new Vector(x, y);
+    setCell(x, y, val) {
+        this._grid[x][y] = val;
     }
 
-    public set(i: number, value: T) {
-        let v = this.cellToVector(i);
-        this.space[v.x + (this._width * v.y)] = value;
-    }
+    asArray() {
+        let cpy: gridVal[][] = [];
 
-    public asArray(){
-        return this.space;
-    }
-
-    /** Returns the value of all cells surrounding 
-     * a given address, assuming they're in the grid 
-     * returns null if not*/
-    public getSurrounding(i: number) {
-
-        let v = this.cellToVector(i);
-
-        return directions.map(a => {
-            let newVec = v.plus(a);
-            return this.isInside(newVec) ? this.get(newVec) : null;
-        })
-    }
-
-    forEach(f: Function, context) {
-
-        for (var y = 0; y < this._height; y++) {
-            for (var x = 0; x < this._width; x++) {
-                var value = this.space[x + y * this._width];
-                if (value != null)
-                    f.call(context, value, new Vector(x, y));
-            }
+        for (let i = 0; i < this._grid.length; i++) {
+            cpy.push(this._grid[i].slice());
         }
+
+        return cpy;
+
     }
 
     get width() {
@@ -116,8 +128,6 @@ export class Grid<T extends Lengthwise> {
     }
 
     get height() {
-        return this._height
+        return this._height;
     }
 }
-
-export interface IGrid<T extends Lengthwise> extends Grid<T>{}

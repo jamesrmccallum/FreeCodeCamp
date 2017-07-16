@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href='styles/flags.min.css'>
+</head>
+
+<body>
+    <style>
+        /* html {
+            background-color: cornflowerblue;
+        } */
+
+        .links line {
+            stroke: #999;
+            stroke-opacity: 0.6;
+        }
+
+        .nodes circle {
+            stroke: #fff;
+            stroke-width: 1.5px;
+        }
+
+        .flagbox, svg{
+            position:absolute;
+            left:50%;
+            margin-left:-550px;
+        }
+
+        .flag {
+            position: absolute;
+        }
+
+        .label {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <div style="text-align: center; font-family: Arial, Helvetica, sans-serif">
+        <h2> National Contiguity </h2>
+        <p style='font-size:10px;'> Contiguity is the sharing of borders. <br> Made with d3. Nodes are bounded by the edge of the SVG container</p>
+    </div>
+    <div id="fdirgraph">
+        <div class='flagbox'></div>
+    </div>
+    <script src='node_modules/d3/build/d3.min.js'></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

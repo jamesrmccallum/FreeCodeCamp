@@ -1,0 +1,22 @@
+{
+  "name": "game_of_life",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^15.0.38",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^15.5.1",
+    "awesome-typescript-loader": "^3.2.1",
+    "react-dom": "^15.6.1",
+    "typescript": "^2.4.1"
+  }
+}
