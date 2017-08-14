@@ -1,0 +1,41 @@
+.cell {
+    height: 14px;
+    width: 14px;
+}
+
+.player {
+  background-image: url('./assets/img/Humanoid0.png');
+  background-repeat: no-repeat;
+  /**background-position: -5px -5px;**/
+}
+
+
+.row {
+    display: flex;
+}
+
+.wall {
+    background: lightgray;
+}
+
+.enemy {
+    background-image: url('./assets/img/Undead0.png');
+    background-repeat: no-repeat;
+    background-position: 0px -32px;
+}
+
+.sword {
+    background-image: url('./assets/img/LongWep.png');
+    background-repeat: no-repeat;
+    background-position: -2px -18px;
+}
+
+.health {
+    background-image: url('./assets/img/Potion.png');
+    background-repeat: no-repeat;
+    background-position: -65px 0px
+}
+
+.playerStatLabel{
+    padding: 0 10px;
+}
