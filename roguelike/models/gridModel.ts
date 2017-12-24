@@ -1,19 +1,20 @@
 import { Vector } from './spatial';
-import { WorldObject } from './actors';
+import { WorldObject, charMap} from './actors';
 
 export class Grid {
 
     private space: (WorldObject | undefined)[][];
-    private _playerPos: Vector;
     private _width: number;
     private _height: number;
+    private _player: WorldObject;
 
-    constructor(gridMap: string) {
+    constructor(gridMap: string, player: WorldObject) {
 
         let arrGrid = gridMap
             .split('\n')
             .map(a => a.split(','));
 
+        this._player = player;
         this.space = [];
         this._height = 50;
         this._width = 50;
@@ -24,9 +25,14 @@ export class Grid {
                 let char = arrGrid[i][j];
                 if (char !== '.') {
                     let pos = new Vector(j, i);
-                    let obj = new WorldObject(pos, char);
-                    if (char === '@') { this._playerPos = pos; }
-                    this.space[i].push(obj);
+                    if (char !== '@') {
+                        let obj = new WorldObject(charMap[char], char);
+                        obj.location = pos;
+                        this.space[i].push(obj);
+                    } else {
+                        player.location = pos;
+                        this.space[i].push(player);
+                    }
                 } else {
                     this.space[i].push(undefined);
                 }
@@ -41,16 +47,15 @@ export class Grid {
 
     /** Get the player position in an (x,y) pair */
     getPlayerPos() {
-        return this._playerPos;
+        return this._player.location;
     }
 
-
-    /** Move the player around */
-    setPlayerPos(pos: Vector) {
-        let player = this.getCharAt(this._playerPos);
-        this.clearSquare(this._playerPos);
-        this.setSquare(pos, player!);
-        this._playerPos = pos;
+    /** Both the objects and the grid hold their locations separately */
+    setPlayerPos(newPos: Vector) {
+        let player = this._player;
+        this.clearSquare(this._player.location);
+        this.setSquare(newPos, player);
+        this._player.location = newPos;
     }
 
     clearSquare(v: Vector) {
@@ -68,7 +73,7 @@ export class Grid {
             ret.push([]);
             for (let j = 0; j < this._width; j++) {
                 if (this.space[i][j]) {
-                    ret[i].push(this.space[i][j]!.getKind());
+                    ret[i].push(this.space[i][j]!.class);
                 } else {
                     ret[i].push('');
                 }

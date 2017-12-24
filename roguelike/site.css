@@ -1,3 +1,7 @@
+html{
+    font-family: 'MedievalSharp', cursive;
+}
+
 .cell {
     height: 14px;
     width: 14px;
@@ -9,19 +13,30 @@
   /**background-position: -5px -5px;**/
 }
 
+.game {
+    width: 50%;
+}
 
 .row {
     display: flex;
 }
 
 .wall {
-    background: lightgray;
+    background-image: url('./assets/img/Tree1.png');
+    background-repeat: no-repeat;
+    background-position: -4px -100px;
 }
 
-.enemy {
+.spoopy {
     background-image: url('./assets/img/Undead0.png');
     background-repeat: no-repeat;
     background-position: 0px -32px;
+}
+
+.lizard {
+    background-image: url('./assets/img/Undead0.png');
+    background-repeat: no-repeat;
+    background-position: 0px -4px;
 }
 
 .sword {
@@ -38,4 +53,15 @@
 
 .playerStatLabel{
     padding: 0 10px;
+}
+
+.logPanel {
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    padding-left: 5px;
+}
+
+.logMsg{
+    display: block;
 }

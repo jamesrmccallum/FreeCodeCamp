@@ -11,6 +11,10 @@
             "taskName": "webpack",
             "type": "shell",
             "command": "webpack --optimize-minimize",
+            "args": [
+                "==optimize-minimize",
+                "-p"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
