@@ -13,6 +13,7 @@ export type CharSpec = {
     statEffect?: StatEffect,
     atk?: number
     weapon?: string
+    level?: number
 };
 
 export type StatEffect = { stat: STATS, val: number };
@@ -50,7 +51,7 @@ export let charMap: { [char: string]: CharSpec } = {
     },
     't': {
         kind: KINDS.pickup,
-        class: 'stick',
+        class: 'mace',
         name: "Beatin' Stick",
         hp: .1,
         interactive: true,
@@ -79,6 +80,13 @@ export let charMap: { [char: string]: CharSpec } = {
         hp: .1,
         interactive: true,
         statEffect: { stat: STATS.atk, val: 40 }
+    },
+    '+': {
+        kind: KINDS.scenery,
+        class: 'exit',
+        name: 'exit',
+        hp: .1,
+        interactive: true 
     }
 };
 
@@ -111,6 +119,7 @@ export class WorldObject {
         this._charFrom = char;
         this._statEffect = spec.statEffect!;
         this._hp = spec.hp;
+        this._lvl = spec.level;
 
         if (spec.name) {
             this._name = spec.name;

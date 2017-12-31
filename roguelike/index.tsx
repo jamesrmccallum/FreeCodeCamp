@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {GameState} from './Components/game';
+import {GameState} from './components/game';
 
 let App  = () => <GameState></GameState>;
 

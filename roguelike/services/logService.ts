@@ -9,7 +9,7 @@ export class LogService {
 
     add(msg: string) {
         let tmp = [];
-        if (this._queue.length > 50) {
+        if (this._queue.length > 20) {
             tmp = this._queue.slice(1, this._queue.length - 1);
         } else {
             tmp = this._queue.slice();

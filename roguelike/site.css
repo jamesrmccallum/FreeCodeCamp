@@ -2,23 +2,29 @@ html{
     font-family: 'MedievalSharp', cursive;
 }
 
+.game {
+    width: 480px;
+    height: 480px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    cursor: none;
+}
+
+.row {
+    width: 100%;
+    height: 16px;
+    white-space: nowrap;
+}
+
 .cell {
-    height: 14px;
-    width: 14px;
+    height: 16px;
+    width: 16px;
+    display: inline-block;
 }
 
 .player {
   background-image: url('./assets/img/Humanoid0.png');
   background-repeat: no-repeat;
-  /**background-position: -5px -5px;**/
-}
-
-.game {
-    width: 50%;
-}
-
-.row {
-    display: flex;
 }
 
 .wall {
@@ -30,13 +36,13 @@ html{
 .spoopy {
     background-image: url('./assets/img/Undead0.png');
     background-repeat: no-repeat;
-    background-position: 0px -32px;
+    background-position: -2px -32px;
 }
 
 .lizard {
     background-image: url('./assets/img/Undead0.png');
     background-repeat: no-repeat;
-    background-position: 0px -4px;
+    background-position: -96px 0px;
 }
 
 .sword {
@@ -45,14 +51,30 @@ html{
     background-position: -2px -18px;
 }
 
+.mace {
+    background-image: url('./assets/img/ShortWep.png');
+    background-repeat: no-repeat;
+    background-position: 0px -64px;
+}
+
 .health {
     background-image: url('./assets/img/Potion.png');
     background-repeat: no-repeat;
-    background-position: -65px 0px
+    background-position: -68px 0px
+}
+
+.exit {
+    background-image: url('./assets/img/Door0.png');
+    background-repeat: no-repeat;
+    background-position: -68px 0px
 }
 
 .playerStatLabel{
     padding: 0 10px;
+}
+
+.playerStat {
+    color: green;
 }
 
 .logPanel {

@@ -1,51 +1,46 @@
 import * as React from 'react';
 import { Grid } from '../models/gridModel';
-import { gridMap } from '../assets/grids';
 import { Row } from '../components/row';
 import { WorldObject, Player, KINDS, STATS, StatEffect } from '../models/actors';
 import { keyDirections } from '../models/spatial';
 
 interface P extends React.HTMLProps<HTMLDivElement> {
-    player: WorldObject;
-    setPlayerState: (p: WorldObject) => void;
+    player: Player;
+    setPlayerState: (p: Player) => void;
     logWrite: (msg: string) => void;
+    grid: Grid;
+    levelUp: ()=>void;
 };
 
-interface S extends React.ComponentState {
-    grid: Grid;
-}
+interface S extends React.ComponentState{};
 
 enum ACTOR { 'player', 'enemy' };
 
 export class World extends React.Component<P, S> {
 
-    constructor(props: P) {
-        super(props);
+    private game: HTMLDivElement;
 
-        let _grid = new Grid(gridMap[0], this.props.player);
-
-        this.state = {
-            grid: _grid
-        };
+    componentDidMount() {
+        this.game.focus();
     }
 
     /** Process a keystroke and handle the interaction if there is one */
     keyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
 
         if (keyDirections[e.keyCode]) {
-            let pos = this.state.grid.getPlayerPos();
+            let pos = this.props.grid.getPlayerPos();
             let target = pos.plus(keyDirections[e.keyCode]);
-            let atTarget = this.state.grid.getCharAt(target);
+            let atTarget = this.props.grid.getCharAt(target);
 
             // There's no target here
             if (atTarget === undefined) {
-                this.state.grid.setPlayerPos(target);
+                this.props.grid.setPlayerPos(target);
                 this.setState(this.state);
-
-                // Theres an interactive object here
-            } else {
+            } else if (atTarget.class === 'exit') {
+                this.props.levelUp();            
+            } else { // Theres an interactive object here
                 if (atTarget.isInteractive) {
-                    let player = this.state.grid.getCharAt(pos) as Player;
+                    let player = this.props.grid.getCharAt(pos) as Player;
                     this.interact(player, atTarget!);
                 }
             }
@@ -67,9 +62,9 @@ export class World extends React.Component<P, S> {
 
         // Exchange stat effects
         target.setStat(effectOnTarget);
-        
-        if (enemy){
-            let msg = this.generateLogMsg(ACTOR.enemy, target.name, target.kind, 
+
+        if (enemy) {
+            let msg = this.generateLogMsg(ACTOR.enemy, target.name, target.kind,
                 target.name, false, effectOnPlayer, effectOnTarget);
             this.props.logWrite(msg);
         }
@@ -77,7 +72,7 @@ export class World extends React.Component<P, S> {
         if (weapon) {
             player.weapon = target.name;
         }
-        
+
         player.setStat(effectOnPlayer);
 
         // Pass the player back to react
@@ -90,9 +85,8 @@ export class World extends React.Component<P, S> {
                 if (enemy) {
                     this.props.logWrite(`Player killed ${target.name}`);
                 }
-                this.state.grid.clearSquare(target.location);
-                this.state.grid.setPlayerPos(target.location);
-                this.setState(this.state);
+                this.props.grid.clearSquare(target.location);
+                this.props.grid.setPlayerPos(target.location);
             }
         }
     }
@@ -130,7 +124,7 @@ export class World extends React.Component<P, S> {
 
     render() {
 
-        let rows = this.state.grid.asArray()
+        let rows = this.props.grid.getViewPort()
             .map((r, i) => {
                 return <Row
                     cells={r}
@@ -139,6 +133,7 @@ export class World extends React.Component<P, S> {
             });
 
         return <div
+            ref={(game) => { this.game = game!; }}
             className='game'
             onKeyDown={this.keyDown}
             tabIndex={0}
